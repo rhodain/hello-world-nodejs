@@ -5,7 +5,7 @@ resources:
   - ../../base
 nameSuffix: -prod
 images:
-  - name: quay.io/YOUR_QUAY_USERNAME/hello-world
+  - name: quay.io/rhn_support_rhodain1/hello-world
     newTag: v1.0 # A PR will be created to update this tag
 patches:
   - patch: |-
