@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: hello-world-preprod
+resources:
+  - ../../base
+nameSuffix: -preprod
+images:
+  - name: quay.io/YOUR_QUAY_USERNAME/hello-world
+    newTag: v1.0 # The pipeline will update this tag
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: "Hello from Pre-Prod!"
+    target:
+      kind: Deployment

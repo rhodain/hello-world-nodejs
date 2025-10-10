@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: hello-world-prod
+resources:
+  - ../../base
+nameSuffix: -prod
+images:
+  - name: quay.io/YOUR_QUAY_USERNAME/hello-world
+    newTag: v1.0 # A PR will be created to update this tag
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: "Welcome to Production!"
+    target:
+      kind: Deployment
