@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: hello-world-run-
+  annotations:
+    # This annotation tells PaC to trigger on a "push" event to the main branch
+    pipelinesascode.tekton.dev/on-event: "[push]"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+spec:
+  pipelineRef:
+    name: hello-world-pipeline
+  params:
+    - name: APP_REPO_URL
+      value: "{{repo_url}}"
+    - name: GITOPS_REPO_URL
+      value: "https://github.com/rhodain/hello-world-gitops.git"
+    - name: IMAGE_URL
+      value: "quay.io/rhn_support_rhodain1/hello-world"
+  workspaces:
+    - name: shared-data
+      persistentVolumeClaim:
+        claimName: pipeline-pvc
+    - name: git-credentials
+      secret:
+        secretName: github-token
